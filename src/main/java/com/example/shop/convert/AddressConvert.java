@@ -19,4 +19,10 @@ public interface AddressConvert {
 
 
     AddressVO convertToAddressVO(UserShippingAddress userShippingAddress);
+    /**
+     * 删除收货地址
+     *
+     * @param id
+     */
+    void removeShippingAddress(Integer id);
 }

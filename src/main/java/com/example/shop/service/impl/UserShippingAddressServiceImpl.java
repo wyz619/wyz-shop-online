@@ -79,7 +79,28 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
 
     @Override
     public List<AddressVO> getList(Integer userId) {
-        return null;
+        LambdaQueryWrapper<UserShippingAddress> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserShippingAddress::getUserId, userId);
+//        根据是否为默认地址和创建时间倒序排列
+        wrapper.orderByDesc(UserShippingAddress::getIsDefault);
+        wrapper.orderByDesc(UserShippingAddress::getCreateTime);
+        List<UserShippingAddress> list = baseMapper.selectList(wrapper);
+        List<AddressVO> results = AddressConvert.INSTANCE.convertToAddressVOList(list);
+        return results;
+    }
+
+    @Override
+    public AddressVO getAddressInfo(Integer id) {
+        UserShippingAddress userShippingAddress = baseMapper.selectById(id);
+        if (userShippingAddress == null) {
+            throw new ServerException("地址不存在");
+        }
+        AddressVO addressVO = AddressConvert.INSTANCE.convertToAddressVO(userShippingAddress);
+        return addressVO;
+    }
+    @Override
+    public void removeShippingAddress(Integer id) {
+        removeById(id);
     }
 //    @Override
 //    public List<AddressVO> getList(Integer userId){

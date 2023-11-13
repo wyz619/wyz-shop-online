@@ -23,4 +23,11 @@ public interface UserShippingAddressService extends IService<UserShippingAddress
     Integer editShippingAddress(AddressVO addressVO);
 
     List<AddressVO> getList(Integer userId);
+    AddressVO getAddressInfo(Integer id);
+    /**
+     * 删除收货地址
+     *
+     * @param id
+     */
+    void removeShippingAddress(Integer id);
 }
